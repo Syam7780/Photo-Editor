@@ -4,75 +4,117 @@
    <title>photo edit window</title>
 </head>
 <style>
+body{
+   background-color: black;
+}
 .main{
-height:700px;
-width:510px;
-margin:20px;
+height:90%;
+width:98%;
+margin:1%;
 background-image:linear-gradient(cyan 35%,magenta 75%); 
 border-radius:5px;
 border:2px solid navy;
  }
+
 #ip{
-color:rgb(0,0,0,0);}
+color:rgb(0,0,0,0);
+}
+
 #ip::file-selector-button{
 background:rgb(255,255,255,0.55);
 border:none;
 height:25px;
 border-radius:3px;
-margin-left:80px;
+position: absolute;
+left: 45%;
+top: 7%;
 }
+
 .in{
-height:250px;
-width:400px;
+height:45vh;
+width:40%;
 background:rgb(255,255,255,0.53);
-margin:10px 0px 10px 50px;
+margin:10px 0px 0px 50px;
 border-radius:4px;
-border:1px solid whit ; }
+ }
+
 .inn{
-height:250px;
-width:400px;
+height:45vh;
+width:40%;
 background:rgb(255,255,255,0.53);
-margin:10px 0px 10px 50px;
+margin:0px 0px 10px 50px;
 border-radius:4px;
-border:1px solid whit ; }
+border:1px solid whit ;
+ }
+
 #btn,#btn2{
 background:rgb(255,255,255,0.55);
 border:none;
-border-radius:20px;
-font-size:15px;
-margin-left:80px; }
-#btn2{
-margin-left:350px;
-position: fixed ;
-margin-top:-40px ;
+border-radius:2px;
+font-size:15px; 
 }
+#btn{
+   position: absolute;
+   top: 55%;
+   left: 45%;
+}
+#btn2{
+margin-top: 13%;
+margin-left:10%;
+}
+
 label{
 border-radius:2px;
 font-size:15px ;
 background:rgb(255,255,255,0.53);
-margin-left:50px; }
+margin: 2% 2% 3% 5%;
+ }
+
 #brit,#sat,#cont{
-width:85px;
-margin-top:15px ; }
+width:200px;
+margin-right: 9%;
+margin-top: 10%;
+margin-left: 5%;
+ }
+
 #rt,#fp{
 background:rgb(255,255,255,0.55);
 border:none;
 border-radius:2px;
 font-size:15px;
-margin-left:40px; }
+margin: 5%;
+ }
+
 .btn{
 height:50px;
 width:500px;
 float:left;
 }
 
+.buttons{
+   width: 35%;
+   height: 50%;
+   border-radius: 3px;
+   position: absolute;
+   background-color: rgb(255,255,255,0.53);
+   left: 60%;
+   top: 5% ;
+}
+#brit-val,#sat-val,#cont-val{
+   margin: -5% 0% 0% 90%;
+   background-color: rgb(255,255,255,0.55);
+   width: 27px;
+   border-radius: 2px;
+   padding: 1px;
+}
 </style>
 
 <body>
 <div class="main">
 <div class="in">
 <image src=" " id="img" alt="unable to load an image"
-       style="border-radius:4px"> </image>
+       style="border-radius:4px"> 
+</image>
 
 </div>
 <input type="file" accept="/image/*" onchange="getimg(event)"
@@ -80,19 +122,27 @@ float:left;
 <div class="inn">
  <canvas id="can"> </canvas>
 
-</div> <div class="btn">
+  <div class="btn">
  <button onclick="load()" id="btn"> Edit </button> <br><br>
- <button onclick="apply()" id="btn2"> Apply </button>
-</div> 
+</div>
+ </div>
+
+<div class="buttons">
 <label for="brite">&nbspBRIGHTNESS&nbsp</label>
  <input type="range" min="0" max="200" value="100" id="brit" >
+ <p id="brit-val">100</p>
 <label for="brit"> &nbspSATURATION&nbsp</label>
  <input type="range" min="0" max="200" value="100" id="sat">
+  <p id="sat-val">100</p>
 <label for="brit"> &nbspCONTRAST&nbsp</label>
  <input type="range" min="0" max="200" value="100" id="cont">
+  <p id="cont-val">100</p>
  <button id="rt" onclick="rotate()"> ROTATE </button>
  <button id="fp" onclick="flip()" > FLIP </button>
-<div>
+  <button onclick="load()" id="btn2"> Apply </button>
+ <div>
+
+</div>
 
 <script>
  var image=document.getElementById("img");
@@ -105,41 +155,47 @@ float:left;
   image.onload=function onload(){
   var h=image.height;
   var w=image.width;
-      image.height=250;
-      image.width=390;
-      can.height=250;
-      can.width=450;
+      image.height=260;
+      image.width=480;
+      can.height=260;
+      can.width=480;
       ar=w/h;
-      image.style.marginLeft="5px"; 
+      image.style.margin="5px"; 
       image.style.display="block";  };
  function load(){
-   var height=400/ar;
-   var width=250*ar; 
+   var height=260;
+   var width=480; 
  ctx.drawImage(image,5,0,width,height); 
     }
  
      brit.onchange=function fun(){
+      var value=document.getElementById("brit-val");
   var b=document.getElementById("brit").value;
   var c=document.getElementById("cont").value;
   var s=document.getElementById("sat").value;
+  value.innerHTML=b
   ctx.filter=`brightness(${b}%) saturate(${s}%) contrast(${c}%)`; 
-  alert(b+","+s+","+c);
+//   alert(b+","+s+","+c);
   ctx.drawImage(image,5,0,width,height);
    }
   cont.onchange=function fun(){
+   var value=document.getElementById("cont-val");
   var c=document.getElementById("cont").value;
   var b=document.getElementById("brit").value;
   var s=document.getElementById("sat").value;
+  value.innerHTML=c
   ctx.filter=`brightness(${b}%) saturate(${s}%) contrast(${c}%)`; 
-  alert(b+","+s+","+c);
+//   alert(b+","+s+","+c);
   ctx.drawImage(image,5,0,width,height);
    }
   sat.onchange=function fun(){
+      var value=document.getElementById("sat-val");
   var s=document.getElementById("sat").value;
   var b=document.getElementById("brit").value;
   var c=document.getElementById("cont").value;
+  value.innerHTML=s
   ctx.filter=`brightness(${b}%) saturate(${s}%) contrast(${c}%)`; 
-  alert(b+","+s+","+c);
+//   alert(b+","+s+","+c);
   ctx.drawImage(image,5,0,width,height);
    }
  function apply(){
